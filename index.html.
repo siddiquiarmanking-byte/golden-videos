@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Golden Videos</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+:root{
+    --bg:#060606;
+    --card:#111111;
+    --card2:#181818;
+    --border:#292929;
+    --gold:#d8aa32;
+    --gold2:#f0ca65;
+    --text:#ffffff;
+    --muted:#929292;
+    --danger:#ef5555;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:Arial,Helvetica,sans-serif;
+    min-height:100vh;
+}
+
+/* HEADER */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:100;
+
+    height:70px;
+
+    padding:0 5%;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    background:rgba(6,6,6,.96);
+    border-bottom:1px solid var(--border);
+    backdrop-filter:blur(15px);
+}
+
+.logo{
+    font-size:25px;
+    font-weight:800;
+}
+
+.logo span{
+    color:var(--gold);
+}
+
+.header-right{
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+/* BUTTONS */
+
+button{
+    font-family:inherit;
+    cursor:pointer;
+}
+
+.gold-btn{
+    background:var(--gold);
+    color:#090909;
+    border:0;
+    padding:11px 17px;
+    border-radius:9px;
+    font-weight:700;
+}
+
+.gold-btn:hover{
+    background:var(--gold2);
+}
+
+.dark-btn{
+    background:#202020;
+    color:white;
+    border:1px solid #333;
+    padding:10px 14px;
+    border-radius:9px;
+}
+
+.danger-btn{
+    background:#241313;
+    color:#ff7777;
+    border:1px solid #422020;
+    padding:9px 12px;
+    border-radius:8px;
+}
+
+/* HERO */
+
+.hero{
+    text-align:center;
+    padding:75px 20px 45px;
+}
+
+.hero h1{
+    font-size:clamp(40px,7vw,75px);
+    margin-bottom:16px;
+}
+
+.hero h1 span{
+    color:var(--gold);
+}
+
+.hero p{
+    color:var(--muted);
+    max-width:700px;
+    margin:auto;
+    line-height:1.7;
+    font-size:16px;
+}
+
+/* SEARCH */
+
+.search-area{
+    width:92%;
+    max-width:850px;
+    margin:0 auto 45px;
+}
+
+.search-box{
+    display:flex;
+    background:#111;
+    border:1px solid #333;
+    border-radius:13px;
+    overflow:hidden;
+}
+
+.search-box input{
+    flex:1;
+    min-width:0;
+
+    padding:16px;
+
+    border:0;
+    outline:0;
+
+    background:transparent;
+    color:white;
+
+    font-size:16px;
+}
+
+.search-box button{
+    width:60px;
+    border:0;
+    background:#222;
+    color:white;
+    font-size:18px;
+}
+
+/* MAIN */
+
+.container{
+    width:92%;
+    max-width:1400px;
+    margin:auto;
+}
+
+.section-title{
+    font-size:25px;
+    font-weight:700;
+    margin-bottom:20px;
+}
+
+/* VIDEOS */
+
+.video-grid{
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fill,minmax(290px,1fr));
+
+    gap:22px;
+
+    padding-bottom:80px;
+}
+
+.video-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:15px;
+    overflow:hidden;
+    transition:.2s;
+}
+
+.video-card:hover{
+    transform:translateY(-3px);
+    border-color:#454545;
+}
+
+.video-player{
+    width:100%;
+    aspect-ratio:16/9;
+    background:#000;
+}
+
+.video-player video{
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:contain;
+}
+
+.video-info{
+    padding:16px;
+}
+
+.video-name{
+    font-size:18px;
+    font-weight:700;
+    margin-bottom:8px;
+    word-break:break-word;
+}
+
+.video-owner{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.video-owner span{
+    color:var(--gold2);
+}
+
+.video-actions{
+    display:flex;
+    gap:8px;
+    margin-top:14px;
+}
+
+/* EMPTY */
+
+.empty{
+    text-align:center;
+    padding:80px 20px;
+    color:#777;
+}
+
+.empty h2{
+    color:#aaa;
+    margin-bottom:10px;
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:300;
+
+    display:none;
+    align-items:center;
+    justify-content:center;
+
+    padding:20px;
+
+    background:rgba(0,0,0,.82);
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+    max-width:470px;
+    max-height:90vh;
+    overflow-y:auto;
+
+    background:#151515;
+    border:1px solid #333;
+    border-radius:17px;
+
+    padding:25px;
+}
+
+.modal-box h2{
+    margin-bottom:22px;
+}
+
+.form-group{
+    margin-bottom:17px;
+}
+
+.form-group label{
+    display:block;
+    color:#aaa;
+    margin-bottom:7px;
+    font-size:14px;
+}
+
+.form-group input{
+    width:100%;
+
+    padding:13px;
+
+    background:#090909;
+    color:white;
+
+    border:1px solid #353535;
+    border-radius:9px;
+    outline:none;
+}
+
+.form-group input:focus{
+    border-color:var(--gold);
+}
+
+.modal-buttons{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+}
+
+.modal-buttons button{
+    flex:1;
+}
+
+.auth-switch{
+    text-align:center;
+    margin-top:17px;
+    color:#888;
+    font-size:14px;
+}
+
+.auth-switch button{
+    background:none;
+    border:0;
+    color:var(--gold2);
+}
+
+/* PROFILE */
+
+.profile{
+    text-align:center;
+    padding:70px 20px;
+}
+
+.avatar{
+    width:90px;
+    height:90px;
+
+    margin:0 auto 18px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:#191919;
+    border:2px solid var(--gold);
+
+    font-size:35px;
+}
+
+.profile h1{
+    margin-bottom:8px;
+}
+
+.profile p{
+    color:var(--muted);
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+    header{
+        height:auto;
+        min-height:65px;
+        padding:12px 4%;
+    }
+
+    .logo{
+        font-size:20px;
+    }
+
+    .header-right .dark-btn{
+        display:none;
+    }
+
+    .gold-btn{
+        padding:9px 12px;
+        font-size:13px;
+    }
+
+    .hero{
+        padding-top:50px;
+    }
+
+    .video-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        🏆 <span>Golden</span> Videos
+    </div>
+
+    <div class="header-right" id="headerButtons">
+
+        <button
+            class="dark-btn"
+            onclick="openAuth(false)">
+            Sign In
+        </button>
+
+        <button
+            class="gold-btn"
+            onclick="openAuth(true)">
+            Sign Up
+        </button>
+
+    </div>
+
+</header>
+
+
+<main id="app"></main>
+
+
+<!-- AUTH MODAL -->
+
+<div class="modal" id="authModal">
+
+    <div class="modal-box">
+
+        <h2 id="authTitle">
+            🔐 Sign In
+        </h2>
+
+
+        <div
+            class="form-group"
+            id="usernameGroup"
+            style="display:none">
+
+            <label>Username</label>
+
+            <input
+                id="username"
+                type="text"
+                placeholder="Choose a username">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Email</label>
+
+            <input
+                id="email"
+                type="email"
+                placeholder="Email address">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Password</label>
+
+            <input
+                id="password"
+                type="password"
+                placeholder="Password">
+
+        </div>
+
+
+        <div class="modal-buttons">
+
+            <button
+                class="dark-btn"
+                onclick="closeModal('authModal')">
+                Cancel
+            </button>
+
+            <button
+                class="gold-btn"
+                onclick="submitAuth()">
+                Continue
+            </button>
+
+        </div>
+
+
+        <div class="auth-switch">
+
+            <span id="authSwitchText">
+                Don't have an account?
+            </span>
+
+            <button
+                id="authSwitchButton"
+                onclick="toggleAuth()">
+                Sign Up
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- UPLOAD MODAL -->
+
+<div class="modal" id="uploadModal">
+
+    <div class="modal-box">
+
+        <h2>📤 Upload Video</h2>
+
+
+        <div class="form-group">
+
+            <label>Video name</label>
+
+            <input
+                id="uploadName"
+                type="text"
+                placeholder="Enter video name">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Choose video</label>
+
+            <input
+                id="uploadFile"
+                type="file"
+                accept="video/*">
+
+        </div>
+
+
+        <div class="modal-buttons">
+
+            <button
+                class="dark-btn"
+                onclick="closeModal('uploadModal')">
+                Cancel
+            </button>
+
+            <button
+                class="gold-btn"
+                onclick="uploadVideo()">
+                Upload
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/*
+====================================================
+GOLDEN VIDEOS
+====================================================
+
+IMPORTANT:
+
+This is the website interface.
+
+For REAL online accounts and REAL permanent
+video uploads, connect a backend such as Supabase.
+
+Never put a secret/service-role key in this file.
+*/
+
+
+/*
+====================================================
+SUPABASE SETTINGS
+====================================================
+
+Replace these after creating your Supabase project.
+
+Use the PUBLIC/PUBLISHABLE (anon) key only.
+*/
+
+const SUPABASE_URL =
+    "YOUR_SUPABASE_URL";
+
+const SUPABASE_KEY =
+    "YOUR_SUPABASE_ANON_KEY";
+
+
+/*
+====================================================
+APP DATA
+====================================================
+*/
+
+let user = null;
+
+let videos = [];
+
+let signupMode = false;
+
+
+/*
+====================================================
+INITIAL DISPLAY
+====================================================
+*/
+
+showHome();
+
+
+/*
+====================================================
+HOME
+====================================================
+*/
+
+function showHome(){
+
+    document.getElementById("app").innerHTML = `
+
+        <section class="hero">
+
+            <h1>
+                Welcome to
+                <span>Golden Videos</span>
+            </h1>
+
+            <p>
+                Watch and share videos in one
+                simple online video library.
+            </p>
+
+        </section>
+
+
+        <div class="search-area">
+
+            <div class="search-box">
+
+                <input
+                    id="search"
+                    type="search"
+                    placeholder="Search videos..."
+                    oninput="searchVideos()">
+
+                <button>
+                    🔍
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="container">
+
+            <div class="section-title">
+                Latest Videos
+            </div>
+
+            <div
+                class="video-grid"
+                id="videoGrid">
+            </div>
+
+        </div>
+
+    `;
+
+    renderVideos(videos);
+
+}
+
+
+/*
+====================================================
+RENDER VIDEOS
+====================================================
+*/
+
+function renderVideos(list){
+
+    const grid =
+        document.getElementById("videoGrid");
+
+
+    if(!grid) return;
+
+
+    if(list.length === 0){
+
+        grid.innerHTML = `
+
+            <div class="empty">
+
+                <h2>
+                    🎬 No videos yet
+                </h2>
+
+                <p>
+                    Be the first person to upload a video.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    grid.innerHTML =
+        list.map(video => {
+
+            const isOwner =
+                user &&
+                video.ownerId === user.id;
+
+
+            return `
+
+                <article class="video-card">
+
+                    <div class="video-player">
+
+                        <video
+                            controls
+                            preload="metadata"
+                            src="${escapeHTML(video.url)}">
+                        </video>
+
+                    </div>
+
+
+                    <div class="video-info">
+
+                        <div class="video-name">
+
+                            ${escapeHTML(video.name)}
+
+                        </div>
+
+
+                        <div class="video-owner">
+
+                            Uploaded by
+
+                            <span>
+                                ${escapeHTML(video.owner)}
+                            </span>
+
+                        </div>
+
+
+                        ${
+                            isOwner
+                            ?
+                            `
+
+                            <div class="video-actions">
+
+                                <button
+                                    class="dark-btn"
+                                    onclick="editVideo('${video.id}')">
+
+                                    ✏️ Edit Name
+
+                                </button>
+
+
+                                <button
+                                    class="danger-btn"
+                                    onclick="deleteVideo('${video.id}')">
+
+                                    🗑️ Delete
+
+                                </button>
+
+                            </div>
+
+                            `
+                            :
+                            ""
+                        }
+
+                    </div>
+
+                </article>
+
+            `;
+
+        }).join("");
+
+}
+
+
+/*
+====================================================
+SEARCH
+====================================================
+*/
+
+function searchVideos(){
+
+    const input =
+        document.getElementById("search");
+
+
+    if(!input) return;
+
+
+    const query =
+        input.value
+        .toLowerCase()
+        .trim();
+
+
+    const result =
+        videos.filter(video =>
+
+            video.name
+            .toLowerCase()
+            .includes(query)
+
+            ||
+
+            video.owner
+            .toLowerCase()
+            .includes(query)
+
+        );
+
+
+    renderVideos(result);
+
+}
+
+
+/*
+====================================================
+AUTH MODAL
+====================================================
+*/
+
+function openAuth(signup){
+
+    signupMode = signup;
+
+    updateAuthModal();
+
+    document
+        .getElementById("authModal")
+        .classList
+        .add("show");
+
+}
+
+
+function toggleAuth(){
+
+    signupMode = !signupMode;
+
+    updateAuthModal();
+
+}
+
+
+function updateAuthModal(){
+
+    document
+        .getElementById("authTitle")
+        .textContent =
+        signupMode
+        ? "📝 Create Account"
+        : "🔐 Sign In";
+
+
+    document
+        .getElementById("usernameGroup")
+        .style.display =
+        signupMode
+        ? "block"
+        : "none";
+
+
+    document
+        .getElementById("authSwitchText")
+        .textContent =
+        signupMode
+        ? "Already have an account?"
+        : "Don't have an account?";
+
+
+    document
+        .getElementById("authSwitchButton")
+        .textContent =
+        signupMode
+        ? "Sign In"
+        : "Sign Up";
+
+}
+
+
+/*
+====================================================
+AUTH SUBMIT
+====================================================
+*/
+
+function submitAuth(){
+
+    const email =
+        document
+        .getElementById("email")
+        .value
+        .trim();
+
+
+    const password =
+        document
+        .getElementById("password")
+        .value;
+
+
+    const username =
+        document
+        .getElementById("username")
+        .value
+        .trim();
+
+
+    if(!email || !password){
+
+        alert(
+            "Please enter your email and password."
+        );
+
+        return;
+
+    }
+
+
+    if(signupMode && !username){
+
+        alert(
+            "Please choose a username."
+        );
+
+        return;
+
+    }
+
+
+    /*
+    Backend authentication goes here.
+    */
+
+    alert(
+        "Connect Supabase to activate real accounts."
+    );
+
+}
+
+
+/*
+====================================================
+UPLOAD
+====================================================
+*/
+
+function openUpload(){
+
+    if(!user){
+
+        openAuth(false);
+
+        return;
+
+    }
+
+
+    document
+        .getElementById("uploadModal")
+        .classList
+        .add("show");
+
+}
+
+
+function uploadVideo(){
+
+    if(!user){
+
+        openAuth(false);
+
+        return;
+
+    }
+
+
+    const name =
+        document
+        .getElementById("uploadName")
+        .value
+        .trim();
+
+
+    const file =
+        document
+        .getElementById("uploadFile")
+        .files[0];
+
+
+    if(!name){
+
+        alert(
+            "Please enter a video name."
+        );
+
+        return;
+
+    }
+
+
+    if(!file){
+
+        alert(
+            "Please select a video."
+        );
+
+        return;
+
+    }
+
+
+    /*
+    This creates a temporary local preview.
+
+    Permanent public storage requires
+    Supabase Storage or another server.
+    */
+
+    const localURL =
+        URL.createObjectURL(file);
+
+
+    videos.unshift({
+
+        id:
+            Date.now().toString(),
+
+        name:name,
+
+        url:localURL,
+
+        owner:user.name,
+
+        ownerId:user.id
+
+    });
+
+
+    closeModal("uploadModal");
+
+    showHome();
+
+}
+
+
+/*
+====================================================
+EDIT VIDEO NAME
+====================================================
+*/
+
+function editVideo(id){
+
+    const video =
+        videos.find(
+            v => v.id === id
+        );
+
+
+    if(!video) return;
+
+
+    if(!user ||
+       video.ownerId !== user.id){
+
+        alert(
+            "You can only edit your own videos."
+        );
+
+        return;
+
+    }
+
+
+    const newName =
+        prompt(
+            "Enter the new video name:",
+            video.name
+        );
+
+
+    if(!newName ||
+       !newName.trim()){
+
+        return;
+
+    }
+
+
+    video.name =
+        newName.trim();
+
+
+    showHome();
+
+}
+
+
+/*
+====================================================
+DELETE VIDEO
+====================================================
+*/
+
+function deleteVideo(id){
+
+    const video =
+        videos.find(
+            v => v.id === id
+        );
+
+
+    if(!video) return;
+
+
+    if(!user ||
+       video.ownerId !== user.id){
+
+        alert(
+            "You can only delete your own videos."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !confirm(
+            "Delete this video?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    videos =
+        videos.filter(
+            v => v.id !== id
+        );
+
+
+    showHome();
+
+}
+
+
+/*
+====================================================
+MODALS
+====================================================
+*/
+
+function closeModal(id){
+
+    document
+        .getElementById(id)
+        .classList
+        .remove("show");
+
+}
+
+
+/*
+====================================================
+SECURITY
+====================================================
+*/
+
+function escapeHTML(value){
+
+    const element =
+        document.createElement("div");
+
+    element.textContent =
+        value ?? "";
+
+    return element.innerHTML;
+
+}
+
+</script>
+
+</body>
+</html>
